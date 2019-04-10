@@ -18,7 +18,7 @@ class LandingPageState extends State<LandingPage> {
       child: DecoratedBox(
         decoration: BoxDecoration(
           image: DecorationImage(
-              image: AssetImage('images/landing.jpg'), fit: BoxFit.fill),
+              image: AssetImage('images/l1.jpg'), fit: BoxFit.fill),
         ),
       ),
     ));

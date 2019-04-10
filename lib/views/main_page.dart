@@ -33,6 +33,7 @@ class MainPageState extends State<MainPage> {
             canvasColor: Colors.white,
           ),
           child: BottomNavigationBar(
+
             type: BottomNavigationBarType.fixed,
             fixedColor: Colors.green[500],
 
@@ -105,7 +106,7 @@ class MainPageState extends State<MainPage> {
         backgroundColor: Colors.green[300],
         child: Icon(Icons.add,),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
-      ),
+      )
     );
   }
 
