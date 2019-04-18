@@ -5,5 +5,8 @@ class Recipe
   final serves;
   final image;
 
-  Recipe(this.name, this.cookTime, this.serves, this.image);
+  final ingredients;
+  final instructions;
+
+  Recipe(this.name, this.cookTime, this.serves, this.image, this.ingredients, this.instructions);
 }
