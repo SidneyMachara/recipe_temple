@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_temple/views/view_recipe.dart';
 import 'package:recipe_temple/models/Recipe.dart';
+//import 'package:recipe_temple/models/Ingredient.dart';
+import 'package:recipe_temple/database/database.dart';
 
 import 'dart:async';
 import 'package:http/http.dart' as http;
@@ -12,9 +14,30 @@ class RecipesPage extends StatefulWidget {
 }
 
 class RecipesPageState extends State<RecipesPage> {
+
+  Future<String> _getUsableIngredients() async {
+
+    String ingredients = '?ingredients=';
+
+    RecipeDatabase db =  RecipeDatabase();
+    await db.getIngredientsToUse().then((dbIngredients) {
+      String ingred;
+      for(var ingredient in dbIngredients){
+        ingred = ingredient.name ;
+        ingredients = ingredients + ingred  +',';
+
+      }
+
+    });
+    return ingredients.substring(0, ingredients.length - 1);
+  }
+
   Future<List<Recipe>> _getRecipes() async {
+
+    String ingredients = await _getUsableIngredients();
+    print("http://146d445a.ngrok.io/api/recipes/recipe_search$ingredients");
     var data =
-        await http.get("http://42fb9d5b.ngrok.io/api/recipes/recipe_search");
+        await http.get("http://146d445a.ngrok.io/api/recipes/recipe_search$ingredients");
 
     var jsonData = json.decode(data.body);
 
@@ -25,6 +48,8 @@ class RecipesPageState extends State<RecipesPage> {
           rec['name'], rec['cook_time'], rec['serves'], rec['image_link'], rec['ingredients'], rec['instructions']);
       recipes.add(recipe);
     }
+
+    print("http://146d445a.ngrok.io/api/recipes/recipe_search$ingredients");
 
     return recipes;
   }
@@ -126,3 +151,5 @@ class RecipesPageState extends State<RecipesPage> {
     );
   }
 }
+
+

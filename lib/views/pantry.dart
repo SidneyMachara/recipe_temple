@@ -81,10 +81,20 @@ class PantryPageState extends State<PantryPage> {
                               subtitle: Row(
                                 children: <Widget>[
                                   Switch(
-                                    value: use,
+                                    value: ingredients[i].use == 1
+                                        ? use = true
+                                        : use = false,
                                     onChanged: (bool value) {
-                                      setState(() {
-                                        use = value;
+                                      RecipeDatabase db = RecipeDatabase();
+
+                                      db
+                                          .toggleUseIngredient(
+                                              ingredients[i].id,
+                                              ingredients[i].use == 1 ? 0 : 1)
+                                          .then((dbIngredients) {
+                                        setState(() {
+                                          use = value;
+                                        });
                                       });
                                     },
                                   ),

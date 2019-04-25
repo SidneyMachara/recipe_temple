@@ -7,6 +7,8 @@ class Ingredient {
 
   Ingredient( this.name, this.use, this.avatar);
 
+
+
   Ingredient.fromDb(Map map)
       :name = map["name"],
         avatar = map["avatar"],
@@ -22,5 +24,7 @@ class Ingredient {
 
     return map;
   }
+
+
 
 }

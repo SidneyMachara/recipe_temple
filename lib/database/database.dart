@@ -33,7 +33,7 @@ class RecipeDatabase{
   }
 
   void _onCreate(Database db,int version) async{
-    await db.execute("CREATE TABLE Ingredients (id INTEGER PRIMARY KEY, name String,use bool, avatar String)");
+    await db.execute("CREATE TABLE Ingredients (id INTEGER PRIMARY KEY, name String,use integer, avatar String)");
 
     print("Ingredients table was Created!");
   }
@@ -43,13 +43,20 @@ class RecipeDatabase{
     List<Map> res = await dbClient.query("Ingredients");
     return res.map((m) => Ingredient.fromDb(m)).toList();
   }
+
+
+  Future<List<Ingredient>> getIngredientsToUse() async {
+    var dbClient = await db;
+    List<Map> res = await dbClient.query("Ingredients",where: "use = ?", whereArgs: [1]);
+    return res.map((m) => Ingredient.fromDb(m)).toList();
+  }
 //
-//  Future<Ingredient> getMovie(String id) async {
-//    var dbClient = await db;
-//    var res = await dbClient.query("Ingredients", where: "id = ?", whereArgs: [id]);
-//    if (res.length == 0) return null;
-//    return Ingredient.fromDb(res[0]);
-//  }
+  Future<Ingredient> getIngredient(int id) async {
+    var dbClient = await db;
+    var res = await dbClient.query("Ingredients", where: "id = ?", whereArgs: [id]);
+    if (res.length == 0) return null;
+    return Ingredient.fromDb(res[0]);
+  }
 
   Future<int> addIngredient(Ingredient ingredient) async {
     var dbClient = await db;
@@ -75,6 +82,18 @@ class RecipeDatabase{
     var dbClient = await db;
     var res = await dbClient.delete("Ingredients", where: "id = ?", whereArgs: [id]);
     print("Ingredients deleted $res");
+    return res;
+  }
+
+  Future<int> toggleUseIngredient(int id, int newUse) async {
+    var dbClient = await db;
+//    int res = await dbClient.update("Ingredients", ingredient,
+//        where: "id = ?", whereArgs: [ingredient['id']]);
+//    print("Ingredient updated $res");
+    int res = await dbClient.rawUpdate(
+        'UPDATE Ingredients SET use = ? WHERE id = ?',
+        [newUse,  id]);
+
     return res;
   }
 
