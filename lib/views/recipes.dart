@@ -17,7 +17,7 @@ class RecipesPageState extends State<RecipesPage> {
 
   Future<String> _getUsableIngredients() async {
 
-    String ingredients = '?ingredients=';
+    String ingredients = '?ingredients=';// TODO : has a problem with ingredients that have space eg (vegetable oil)
 
     RecipeDatabase db =  RecipeDatabase();
     await db.getIngredientsToUse().then((dbIngredients) {
@@ -35,9 +35,9 @@ class RecipesPageState extends State<RecipesPage> {
   Future<List<Recipe>> _getRecipes() async {
 
     String ingredients = await _getUsableIngredients();
-    print("http://146d445a.ngrok.io/api/recipes/recipe_search$ingredients");
+    print("http://178.128.207.244/api/recipes/recipe_search$ingredients");
     var data =
-        await http.get("http://146d445a.ngrok.io/api/recipes/recipe_search$ingredients");
+        await http.get("http://178.128.207.244/api/recipes/recipe_search$ingredients");
 
     var jsonData = json.decode(data.body);
 
@@ -49,7 +49,7 @@ class RecipesPageState extends State<RecipesPage> {
       recipes.add(recipe);
     }
 
-    print("http://146d445a.ngrok.io/api/recipes/recipe_search$ingredients");
+    print("http://178.128.207.244/api/recipes/recipe_search$ingredients");
 
     return recipes;
   }
@@ -81,67 +81,7 @@ class RecipesPageState extends State<RecipesPage> {
                       itemCount: snapshot.data.length,
                       itemBuilder: (BuildContext context, int index) => Column(
                             children: <Widget>[
-                              Container(
-                                margin: EdgeInsets.symmetric(
-                                    horizontal: 1.0, vertical: 20.0),
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color: Colors.white, width: 4.0),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(18)),
-                                    color: Colors.white,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.white,
-                                        blurRadius: 9.0,
-                                      ),
-                                    ]),
-                                child: ListTile(
-                                    leading: ClipRRect(
-                                        borderRadius:
-                                            new BorderRadius.circular(20.0),
-                                        child: Image.network(
-                                          snapshot.data[index].image,
-                                          fit: BoxFit.fill,
-                                          width: 160,
-                                          height: 110,
-                                        )),
-                                    title: InkWell(
-                                      child: Text(
-                                        snapshot.data[index].name,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                        maxLines: 2,
-                                      ),
-                                      onTap: () => Navigator.of(context).push(
-                                            new MaterialPageRoute(
-                                              builder: (BuildContext context) =>
-                                                  new ViewRecipePage(
-                                                      snapshot.data[index]),
-                                            ),
-                                          ),
-                                    ),
-                                    subtitle: Row(
-                                      children: <Widget>[
-                                        Container(
-                                            margin: EdgeInsets.only(top: 30.0),
-                                            padding: EdgeInsets.all(2.0),
-                                            decoration: BoxDecoration(
-//                                  border: Border.all(color: Colors.white, width: 4.0),
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(18)),
-                                              color: Colors.green[50],
-                                            ),
-                                            child: Text(" 11/11",
-                                                style: TextStyle(
-                                                    color: Colors.green[400]))),
-                                        Container(
-                                            margin: EdgeInsets.only(top: 30.0),
-                                            child: Text(" Pantry match",
-                                                style: TextStyle())),
-                                      ],
-                                    )),
-                              ),
+                              RecipeFlatCard(snapshot, index),
                             ],
                           ));
                 }
@@ -150,6 +90,82 @@ class RecipesPageState extends State<RecipesPage> {
       ],
     );
   }
+}
+
+class RecipeFlatCard extends StatelessWidget
+{
+  final AsyncSnapshot snapshot;
+  final int index;
+
+  RecipeFlatCard(this.snapshot,this.index);
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Container(
+      margin: EdgeInsets.symmetric(
+          horizontal: 1.0, vertical: 20.0),
+      decoration: BoxDecoration(
+          border: Border.all(
+              color: Colors.white, width: 4.0),
+          borderRadius:
+          BorderRadius.all(Radius.circular(18)),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.white,
+              blurRadius: 9.0,
+            ),
+          ]),
+      child: ListTile(
+          leading: ClipRRect(
+              borderRadius:
+              new BorderRadius.circular(20.0),
+              child: Image.network(
+                snapshot.data[index].image,
+                fit: BoxFit.fill,
+                width: 160,
+                height: 110,
+              )),
+          title: InkWell(
+            child: Text(
+              snapshot.data[index].name,
+              style: TextStyle(
+                  fontWeight: FontWeight.bold),
+              maxLines: 2,
+            ),
+            onTap: () => Navigator.of(context).push(
+              new MaterialPageRoute(
+                builder: (BuildContext context) =>
+                new ViewRecipePage(
+                    snapshot.data[index]),
+              ),
+            ),
+          ),
+          subtitle: Row(
+            children: <Widget>[
+              Container(
+                  margin: EdgeInsets.only(top: 30.0),
+                  padding: EdgeInsets.all(2.0),
+                  decoration: BoxDecoration(
+//                                  border: Border.all(color: Colors.white, width: 4.0),
+                    borderRadius: BorderRadius.all(
+                        Radius.circular(18)),
+                    color: Colors.green[50],
+                  ),
+                  child: Text(" 11/11",
+                      style: TextStyle(
+                          color: Colors.green[400]))),
+              Container(
+                  margin: EdgeInsets.only(top: 30.0),
+                  child: Text(" Pantry match",
+                      style: TextStyle())),
+            ],
+          )),
+    );
+  }
+
+
 }
 
 
