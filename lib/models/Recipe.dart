@@ -7,11 +7,14 @@ class Recipe
   final cookTime;
   final serves;
   final image;
+  final id;
 
   final _ingredients;
   final _instructions;
 
-  Recipe(this.name, this.cookTime, this.serves, this.image, this._ingredients, this._instructions);
+  Recipe(this.id, this.name, this.cookTime, this.serves, this.image, this._ingredients, this._instructions);
+
+
 
   List<String> get getIngredients
   {
@@ -36,6 +39,21 @@ class Recipe
 
     return instructions;
   }
+
+
+
+  Map<String, dynamic> toMap() {
+    var map = Map<String, dynamic>();
+    map['name'] = name;
+    map['cook_time'] = cookTime;
+    map['serves'] = serves;
+    map['image_url'] = image;
+    map['id'] = id;
+
+    return map;
+  }
+
+
 
 
 }

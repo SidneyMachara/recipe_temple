@@ -1,11 +1,13 @@
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
+
 import 'package:sqflite/sqflite.dart';
 
 import 'dart:async';
 import 'dart:io';
 
 import 'package:recipe_temple/models/Ingredient.dart';
+import 'package:recipe_temple/models/Recipe.dart';
 
 class RecipeDatabase{
   static final RecipeDatabase _instance = RecipeDatabase._internal();
@@ -34,8 +36,19 @@ class RecipeDatabase{
 
   void _onCreate(Database db,int version) async{
     await db.execute("CREATE TABLE Ingredients (id INTEGER PRIMARY KEY, name String,use integer, avatar String)");
-
     print("Ingredients table was Created!");
+
+    await db.execute("CREATE TABLE saved_recipes (id INTEGER PRIMARY KEY, name String,image_url String, serves String, cook_time String)");
+    print("Saved Recipes table was Created!");
+
+    await db.execute("CREATE TABLE saved_recipe_ingredients (id INTEGER PRIMARY KEY, saved_recipe_id INTEGER,name String)");
+    print("recipe_ingredients table was Created!");
+
+    await db.execute("CREATE TABLE saved_recipe_instructions (id INTEGER PRIMARY KEY, saved_recipe_id INTEGER, step String, image_url String,text String)");
+    print("saved_recipe_instructions table was Created!");
+
+    await db.execute("CREATE TABLE shopping_lists (id INTEGER PRIMARY KEY, ingredient_name String)");
+    print("shopping_list table was Created!");
   }
 
   Future<List<Ingredient>> getIngredients() async {
@@ -50,7 +63,27 @@ class RecipeDatabase{
     List<Map> res = await dbClient.query("Ingredients",where: "use = ?", whereArgs: [1]);
     return res.map((m) => Ingredient.fromDb(m)).toList();
   }
-//
+
+  Future<List<Recipe>> getSavedRecipes() async {
+
+    var dbClient = await db;
+    List<dynamic> recipesList = await dbClient.query("saved_recipes");
+    List<Recipe> recipes =[];
+
+    for(var rec in recipesList) {
+      List<dynamic> ingredients = await dbClient.query("saved_recipe_ingredients",where: "saved_recipe_id = ?", whereArgs: [rec['id']]);
+      List<dynamic> instructions = await dbClient.query("saved_recipe_instructions",where: "saved_recipe_id = ?", whereArgs: [rec['id']]);
+
+      Recipe recipe = Recipe(
+          rec['id'], rec['name'], rec['cook_time'], rec['serves'], rec['image_url'], ingredients, instructions);
+
+      recipes.add(recipe);
+
+    }
+    print("--> done fetching saved recipes");
+    return recipes;
+  }
+
   Future<Ingredient> getIngredient(int id) async {
     var dbClient = await db;
     var res = await dbClient.query("Ingredients", where: "id = ?", whereArgs: [id]);
@@ -67,6 +100,29 @@ class RecipeDatabase{
     } catch (e) {
       int res = await updateIngredient(ingredient);
       return res;
+    }
+  }
+
+  Future<int> saveRecipe(Recipe recipe) async {
+    var dbClient = await db;
+    try {
+      //save recipe
+      int res =  await dbClient.insert("saved_recipes", recipe.toMap());
+       //save its ingredients
+       for(var ingred in recipe.getIngredients) {
+         await dbClient.insert("saved_recipe_ingredients", {'name':ingred, 'saved_recipe_id':recipe.id});
+       }
+       //save its instructions
+       for(var instru in recipe.getInstructions) {
+         await dbClient.insert("saved_recipe_instructions", {'saved_recipe_id':recipe.id, 'step':instru.number, 'image_url':instru.imageUrl,'text':instru.stepText});
+       }
+      print("recipe saved");
+      return res;
+    } catch (e) {
+//      int res = await updateRecipe(ingredient);
+    print("failed to save recipe or ingr,or instru");
+    print("most likely becouse its already saved");
+      return 0;
     }
   }
 
