@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_temple/models/Recipe.dart';
-import 'package:recipe_temple/models/Step.dart';
+//import 'package:recipe_temple/models/Step.dart';
 
 class ViewRecipePage extends StatefulWidget {
   final Recipe recipe;

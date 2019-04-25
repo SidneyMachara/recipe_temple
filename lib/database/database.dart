@@ -35,7 +35,7 @@ class RecipeDatabase{
   }
 
   void _onCreate(Database db,int version) async{
-    await db.execute("CREATE TABLE Ingredients (id INTEGER PRIMARY KEY, name String,use integer, avatar String)");
+    await db.execute("CREATE TABLE Ingredients (id INTEGER PRIMARY KEY, name String,use integer)");
     print("Ingredients table was Created!");
 
     await db.execute("CREATE TABLE saved_recipes (id INTEGER PRIMARY KEY, name String,image_url String, serves String, cook_time String)");

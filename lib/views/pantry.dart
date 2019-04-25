@@ -29,7 +29,7 @@ class PantryPageState extends State<PantryPage> {
   @override
   Widget build(BuildContext context) {
     bool use = true;
-    void useInRecipe(bool value) => setState(() => use = value);
+//    void useInRecipe(bool value) => setState(() => use = value);
 
     return Column(
       children: <Widget>[
@@ -126,6 +126,8 @@ class PantryPageState extends State<PantryPage> {
                         ),
                       ],
                     ))),
+
+
       ],
     );
   }

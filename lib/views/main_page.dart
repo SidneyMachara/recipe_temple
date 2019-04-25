@@ -90,10 +90,10 @@ class MainPageState extends State<MainPage> {
                   new FlatButton(
                     child: new Text("ADD"),
                     onPressed: () {
-                      RecipeDatabase db = RecipeDatabase();
-                      db.addIngredient(Ingredient(newIngredient, 1 , 'tmp',)).then((dbIngredients) {
-                        setState(() { _currentIndex = 0; });
+                      Scaffold.of(context).setState((){
+                        savedIngredient();
                       });
+
 
                       Navigator.of(context).pop();
 
@@ -118,6 +118,12 @@ class MainPageState extends State<MainPage> {
     });
   }
 
+  void savedIngredient(){
+    RecipeDatabase db = RecipeDatabase();
+    db.addIngredient(Ingredient(newIngredient, 1 )).then((dbIngredients) {
+      setState(() {  });
+    });
+  }
 }
 
 

@@ -2,16 +2,14 @@ class Ingredient {
 
   String name;
   int use;
-  String avatar;
   int  id;
 
-  Ingredient( this.name, this.use, this.avatar);
+  Ingredient( this.name, this.use);
 
 
 
   Ingredient.fromDb(Map map)
       :name = map["name"],
-        avatar = map["avatar"],
         use = map["use"],
         id = map["id"];
 
@@ -19,7 +17,6 @@ class Ingredient {
     var map = Map<String, dynamic>();
     map['name'] = name;
     map['use'] = use;
-    map['avatar'] = avatar;
     map['id'] = id;
 
     return map;

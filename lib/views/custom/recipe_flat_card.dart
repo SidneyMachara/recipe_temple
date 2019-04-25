@@ -39,21 +39,13 @@ class RecipeFlatCard extends StatelessWidget
                   width: 160,
                   height: 110,
                 )),
-            title: InkWell(
-              child: Text(
+            title:Text(
                 snapshot.data[index].name,
                 style: TextStyle(
                     fontWeight: FontWeight.bold),
                 maxLines: 2,
               ),
-              onTap: () => Navigator.of(context).push(
-                new MaterialPageRoute(
-                  builder: (BuildContext context) =>
-                  new ViewRecipePage(
-                      snapshot.data[index]),
-                ),
-              ),
-            ),
+
             subtitle: Row(
               children: <Widget>[
                 Container(
@@ -85,9 +77,15 @@ class RecipeFlatCard extends StatelessWidget
 
                //todo delete if already saved
         });
-
-
       },
+
+      onTap: () => Navigator.of(context).push(
+        new MaterialPageRoute(
+          builder: (BuildContext context) =>
+          new ViewRecipePage(
+              snapshot.data[index]),
+        ),
+      ),
     );
   }
 
