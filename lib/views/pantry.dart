@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_temple/models/Ingredient.dart';
 import 'package:recipe_temple/database/database.dart';
+import 'package:recipe_temple/models/commonHelpers.dart';
 
 class PantryPage extends StatefulWidget {
   @override
@@ -14,6 +15,11 @@ class PantryPageState extends State<PantryPage> {
   void initState() {
     super.initState();
 
+    _setIngredients();
+  }
+
+  void _setIngredients()
+  {
     RecipeDatabase db = RecipeDatabase();
     db.getIngredients().then((dbIngredients) {
       setState(() => ingredients = dbIngredients);
@@ -109,7 +115,11 @@ class PantryPageState extends State<PantryPage> {
                                   db
                                       .deleteIngredient(ingredients[i].id)
                                       .then((dbIngredients) {
-                                    setState(() {});
+                                    setState(() {
+
+                                      _setIngredients();
+                                      CommonHelpers().showToast(context, "Ingredient Deleted");
+                                    });
                                   });
                                 },
                               )),

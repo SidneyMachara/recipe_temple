@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_temple/views/view_recipe.dart';
 import 'package:recipe_temple/database/database.dart';
+import 'package:recipe_temple/models/commonHelpers.dart';
 
 class RecipeFlatCard extends StatelessWidget
 {
@@ -80,6 +81,8 @@ class RecipeFlatCard extends StatelessWidget
          db.saveRecipe(snapshot.data[index])
              .then((dbIngredients) {
 
+           CommonHelpers().showToast(context, "Recipe saved");
+
                //todo delete if already saved
         });
 
@@ -90,5 +93,8 @@ class RecipeFlatCard extends StatelessWidget
 
 
 }
+
+
+
 
 

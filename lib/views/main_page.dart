@@ -96,6 +96,8 @@ class MainPageState extends State<MainPage> {
                       });
 
                       Navigator.of(context).pop();
+
+
                     },
                   ),
                 ],
@@ -115,4 +117,7 @@ class MainPageState extends State<MainPage> {
       _currentIndex = index;
     });
   }
+
 }
+
+
