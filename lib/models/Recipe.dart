@@ -34,7 +34,7 @@ class Recipe
     List<Step> instructions =[];
 
     for( var step in _instructions){
-      instructions.add( Step(step['image'], step['text'], 'Step ' + step['step'].toString() ));
+      instructions.add( Step(step['image'], step['text'], step['step'] ));
     }
 
     return instructions;

@@ -2,7 +2,7 @@ class Step {
 
   String imageUrl;
   String stepText;
-  String number;
+  int number;
 
   Step(this.imageUrl, this.stepText ,this.number);
 

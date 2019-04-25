@@ -44,7 +44,7 @@ class RecipeDatabase{
     await db.execute("CREATE TABLE saved_recipe_ingredients (id INTEGER PRIMARY KEY, saved_recipe_id INTEGER,name String)");
     print("recipe_ingredients table was Created!");
 
-    await db.execute("CREATE TABLE saved_recipe_instructions (id INTEGER PRIMARY KEY, saved_recipe_id INTEGER, step String, image_url String,text String)");
+    await db.execute("CREATE TABLE saved_recipe_instructions (id INTEGER PRIMARY KEY, saved_recipe_id INTEGER, step integer, image String,text String)");
     print("saved_recipe_instructions table was Created!");
 
     await db.execute("CREATE TABLE shopping_lists (id INTEGER PRIMARY KEY, ingredient_name String)");
@@ -73,12 +73,12 @@ class RecipeDatabase{
     for(var rec in recipesList) {
       List<dynamic> ingredients = await dbClient.query("saved_recipe_ingredients",where: "saved_recipe_id = ?", whereArgs: [rec['id']]);
       List<dynamic> instructions = await dbClient.query("saved_recipe_instructions",where: "saved_recipe_id = ?", whereArgs: [rec['id']]);
-
+      print(instructions);
       Recipe recipe = Recipe(
           rec['id'], rec['name'], rec['cook_time'], rec['serves'], rec['image_url'], ingredients, instructions);
 
       recipes.add(recipe);
-
+      print(recipe.getInstructions[0]);
     }
     print("--> done fetching saved recipes");
     return recipes;
@@ -114,14 +114,14 @@ class RecipeDatabase{
        }
        //save its instructions
        for(var instru in recipe.getInstructions) {
-         await dbClient.insert("saved_recipe_instructions", {'saved_recipe_id':recipe.id, 'step':instru.number, 'image_url':instru.imageUrl,'text':instru.stepText});
+         await dbClient.insert("saved_recipe_instructions", {'saved_recipe_id':recipe.id, 'step':instru.number, 'image':instru.imageUrl,'text':instru.stepText});
        }
       print("recipe saved");
       return res;
     } catch (e) {
-//      int res = await updateRecipe(ingredient);
-    print("failed to save recipe or ingr,or instru");
-    print("most likely becouse its already saved");
+
+      print("failed to save recipe or ingr,or instru");
+      print("most likely becouse its already saved");
       return 0;
     }
   }

@@ -134,7 +134,7 @@ class InstructionsListWidget extends StatelessWidget {
                           )),
                       Padding(padding: EdgeInsets.only(top: 15.0)),
                       Text(
-                        instructionsList[index].number,
+                        "Step " + instructionsList[index].number.toString(),
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 22.0),
                       ),
