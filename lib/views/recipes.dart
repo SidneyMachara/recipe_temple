@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_temple/views/custom/recipe_flat_card.dart';
 import 'package:recipe_temple/models/Recipe.dart';
-//import 'package:recipe_temple/models/Ingredient.dart';
 import 'package:recipe_temple/database/database.dart';
 
 import 'dart:async';
@@ -81,7 +80,7 @@ class RecipesPageState extends State<RecipesPage> {
                       itemCount: snapshot.data.length,
                       itemBuilder: (BuildContext context, int index) => Column(
                             children: <Widget>[
-                              RecipeFlatCard(snapshot, index),
+                              RecipeFlatCard(snapshot, index, true),
                             ],
                           ));
                 }

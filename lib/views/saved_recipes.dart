@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:recipe_temple/views/custom/recipe_flat_card.dart';
 import 'package:recipe_temple/database/database.dart';
 import 'package:recipe_temple/models/Recipe.dart';
+import 'package:recipe_temple/models/commonHelpers.dart';
 
 
 class SavedRecipesPage extends StatefulWidget {
@@ -24,6 +25,8 @@ class SavedRecipesPageState extends State<SavedRecipesPage> {
     });
     return savedRecipes;
   }
+
+
 
 
 
@@ -54,7 +57,7 @@ class SavedRecipesPageState extends State<SavedRecipesPage> {
                       itemCount: snapshot.data.length,
                       itemBuilder: (BuildContext context, int index) => Column(
                         children: <Widget>[
-                          RecipeFlatCard(snapshot, index),
+                          RecipeFlatCard(snapshot, index, false),
                         ],
                       ));
                 }

@@ -165,6 +165,23 @@ class RecipeDatabase{
     }
   }
 
+  Future<int> unSaveRecipe(Recipe recipe) async {
+    var dbClient = await db;
+    try {
+      //save recipe
+      int res =  await dbClient.delete('saved_recipes', where: 'id = ?', whereArgs: [recipe.id]);
+
+      await dbClient.delete('saved_recipe_ingredients', where: 'saved_recipe_id = ?', whereArgs: [recipe.id]);
+      await dbClient.delete('saved_recipe_instructions', where: 'saved_recipe_id = ?', whereArgs: [recipe.id]);
+
+      print("-->deleted recipe from saved table");
+      return res;
+    } catch (e) {
+
+      return 0;
+    }
+  }
+
   Future<int> updateIngredient(Ingredient ingredient) async {
     var dbClient = await db;
     int res = await dbClient.update("Ingredients", ingredient.toMap(),

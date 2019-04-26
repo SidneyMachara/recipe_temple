@@ -7,10 +7,16 @@ class RecipeFlatCard extends StatelessWidget {
   final AsyncSnapshot snapshot;
   final int index;
 
-  RecipeFlatCard(this.snapshot, this.index);
+  final online;
+
+//  final VoidCallback _onLongPress;
+
+
+  RecipeFlatCard(this.snapshot, this.index, this.online);
 
   @override
   Widget build(BuildContext context) {
+
     return InkWell(
       splashColor: Colors.green[400],
       highlightColor: Colors.white,
@@ -59,20 +65,32 @@ class RecipeFlatCard extends StatelessWidget {
             )),
       ),
       onDoubleTap: () {
-        RecipeDatabase db = RecipeDatabase();
-        //snapshot.data[index] is a recipe object
-        db.saveRecipe(snapshot.data[index]).then((dbIngredients) {
-          CommonHelpers().showToast(context, "Recipe saved");
+        if(online)  {
+          RecipeDatabase db = RecipeDatabase();
+          //snapshot.data[index] is a recipe object
+          db.saveRecipe(snapshot.data[index]).then((dbResponse) {
+            CommonHelpers().showToast(context, "Recipe saved");
 
-          //todo delete if already saved
-        });
+
+          });
+        } else {
+
+          RecipeDatabase db = RecipeDatabase();
+          db.unSaveRecipe(snapshot.data[index]).then((dbResponse) {
+            CommonHelpers().showToast(context, "Recipe Removed");
+
+          });
+        }
+
       },
-      onTap: () => Navigator.of(context).push(
+
+            onTap: () => Navigator.of(context).push(
             new MaterialPageRoute(
               builder: (BuildContext context) =>
                   new ViewRecipePage(snapshot.data[index]),
             ),
           ),
+//      onLongPress: _onLongPress,
     );
   }
 }
