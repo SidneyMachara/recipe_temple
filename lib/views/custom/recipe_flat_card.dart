@@ -12,6 +12,8 @@ class RecipeFlatCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      splashColor: Colors.green[400],
+      highlightColor: Colors.white,
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 1.0, vertical: 20.0),
         decoration: BoxDecoration(

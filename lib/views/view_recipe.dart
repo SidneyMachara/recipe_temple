@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_temple/models/Recipe.dart';
-//import 'package:recipe_temple/models/Step.dart';
+
 
 class ViewRecipePage extends StatefulWidget {
   final Recipe recipe;
@@ -17,9 +17,7 @@ class ViewRecipePageState extends State<ViewRecipePage> {
     final Recipe recipe = widget.recipe;
 
     return Scaffold(
-//        appBar: AppBar(
-//          backgroundColor: Colors.green[400],
-//        ),
+
       backgroundColor: Colors.white,
       body: Container(
         child: CustomScrollView(

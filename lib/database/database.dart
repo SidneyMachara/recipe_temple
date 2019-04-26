@@ -91,6 +91,45 @@ class RecipeDatabase{
     return Ingredient.fromDb(res[0]);
   }
 
+  Future<List<String>> suggestShoppingList() async {
+    var dbClient = await db;
+
+    List<String> suggestedShoppingList = [];
+    bool inPantry = false;
+
+    var savedRecIngred = await dbClient.query("saved_recipe_ingredients");
+    var pantryIngred = await dbClient.query("Ingredients");
+
+//    String unwantedWords = "(teaspoon) | (tablespoon )";
+
+    for(var savedRI in savedRecIngred) {
+      String sri = savedRI['name'].toString().toLowerCase();
+      for(var pI in pantryIngred) {
+        String pantry = pI['name'].toString().toLowerCase();
+
+        if( sri.contains(pantry)) {
+           inPantry = true;
+        }
+      }print("-->"+ sri);
+      //if its not in pantry suggest for shopping list
+      if( !inPantry) {
+
+        if(sri.contains(':') || sri.contains('needed') || sri.contains('for') ) {
+          continue;
+        }
+
+        //strip numbers and soon words
+        sri = sri.replaceAll(RegExp(r'[1-9] '), '');
+        sri = sri.replaceAll(RegExp('(tablespoon|teaspoon|tablespoons|teaspoons|cup|cups|bunch|inch|⅓|½|¼|1½)'), '').trim();
+
+        suggestedShoppingList.add(sri);
+      }
+      inPantry = false;
+    }
+//    print(suggestedShoppingList);
+    return suggestedShoppingList;
+  }
+
   Future<int> addIngredient(Ingredient ingredient) async {
     var dbClient = await db;
     try {
