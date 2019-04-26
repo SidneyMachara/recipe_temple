@@ -39,6 +39,11 @@ class PantryPageState extends State<PantryPage> {
   Widget build(BuildContext context) {
     bool use = true;
 //    void useInRecipe(bool value) => setState(() => use = value);
+    void alertSaved() {
+      Scaffold.of(context).setState(() {
+        CommonHelpers().showToast(context, "Ingredient Saved");
+      });
+    }
 
     return Scaffold(
       body: Column(
@@ -164,11 +169,8 @@ class PantryPageState extends State<PantryPage> {
                   new FlatButton(
                     child: new Text("ADD"),
                     onPressed: () {
-//                      Scaffold.of(context).setState(() {
-//
-//                      });
-//                      CommonHelpers().showToast(
-//                          context, "Ingredient Saved");
+                      alertSaved();
+
                       saveIngredient();
                       Navigator.of(context).pop();
                     },
@@ -187,6 +189,4 @@ class PantryPageState extends State<PantryPage> {
       ),
     );
   }
-
-
 }

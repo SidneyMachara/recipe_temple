@@ -4,8 +4,7 @@ import 'package:recipe_temple/views/recipes.dart';
 import 'package:recipe_temple/views/shopping_list.dart';
 import 'package:recipe_temple/views/saved_recipes.dart';
 
-import 'package:recipe_temple/database/database.dart';
-import 'package:recipe_temple/models/Ingredient.dart';
+
 
 class MainPage extends StatefulWidget {
   @override
