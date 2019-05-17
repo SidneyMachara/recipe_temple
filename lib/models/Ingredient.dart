@@ -1,15 +1,16 @@
-class Ingredient {
+import 'package:flutter/foundation.dart';
+import 'package:recipe_temple/database/database.dart';
+//import 'package:recipe_temple/models/Ingredient.dart';
 
+class Ingredient with ChangeNotifier {
   String name;
   int use;
-  int  id;
+  int id;
 
-  Ingredient( this.name, this.use);
-
-
+  Ingredient(this.name, this.use);
 
   Ingredient.fromDb(Map map)
-      :name = map["name"],
+      : name = map["name"],
         use = map["use"],
         id = map["id"];
 
@@ -22,6 +23,14 @@ class Ingredient {
     return map;
   }
 
+  void toggleUseIngredient(int ingredientId, int newToggle) {
+    RecipeDatabase db = RecipeDatabase();
+
+    db.toggleUseIngredient(ingredientId , newToggle).then((dbIngredients) {
+        use = newToggle;
+        notifyListeners();
+    });
+  }
 
 
 }
