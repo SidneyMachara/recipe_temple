@@ -14,16 +14,16 @@ anyone can fork the repo and make improvements to also demostrate different appr
 
 # screenshots
 
-![alt text](https://raw.githubusercontent.com/SidneyMachara/recipe_temple/master/screenshots/pantry.png)
+![alt text](https://raw.githubusercontent.com/SidneyMachara/recipe_temple/master/Screenshots/pantry.png)
 
 
-![alt text](https://raw.githubusercontent.com/SidneyMachara/recipe_temple/master/screenshots/list_recipies.png)
+![alt text](https://raw.githubusercontent.com/SidneyMachara/recipe_temple/master/Screenshots/list_recipies.png)
 
 
-![alt text](https://raw.githubusercontent.com/SidneyMachara/recipe_temple/master/screenshots/recipie.png)
+![alt text](https://raw.githubusercontent.com/SidneyMachara/recipe_temple/master/Screenshots/recipie.png)
 
 
-![alt text](https://raw.githubusercontent.com/SidneyMachara/recipe_temple/master/screenshots/instru.png)
+![alt text](https://raw.githubusercontent.com/SidneyMachara/recipe_temple/master/Screenshots/instru.png)
 
 
 ## 👨 Developed By
