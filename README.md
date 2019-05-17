@@ -1,8 +1,10 @@
 # recipe_temple
 the user enters the ingredients they have in th pantry and the app uses api to suggests recipes based on thos ingredients, you can even save recipie for offline use.
 
-i have started refactoring the code to use proper state management.
+i plan to have different refactored braches  using different state management.
 anyone can fork the repo and make improvements to also demostrate different approaches
+
+
 
 ## Show some :heart: and star the repo to support the project
 
