@@ -1,6 +1,46 @@
 # recipe_temple
+the user enters the ingredients they have in th pantry and the app uses api to suggests recipes based on thos ingredients, you can even save recipie for offline use.
 
-A new Flutter application.
+i have started refactoring the code to use proper state management.
+anyone can fork the repo and make improvements to also demostrate different approaches
+
+## Show some :heart: and star the repo to support the project
+
+
+
+[![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=102)](https://opensource.org/)
+
+# screenshots
+
+![alt text](https://raw.githubusercontent.com/SidneyMachara/recipe_temple/master/screenshots/pantry.png)
+
+
+![alt text](https://raw.githubusercontent.com/SidneyMachara/recipe_temple/master/screenshots/list_recipies.png)
+
+
+![alt text](https://raw.githubusercontent.com/SidneyMachara/recipe_temple/master/screenshots/recipie.png)
+
+
+![alt text](https://raw.githubusercontent.com/SidneyMachara/recipe_temple/master/screenshots/instru.png)
+
+
+## 👨 Developed By
+
+```
+Sidney David  Machara
+```
+
+
+# 👍 How to Contribute
+
+1. Fork it
+2. Create your feature branch (git checkout -b my-new-feature)
+3. Commit your changes (git commit -am 'Add some feature')
+4. Push to the branch (git push origin my-new-feature)
+5. Create new Pull Request
+
+
+
 
 ## Getting Started
 
