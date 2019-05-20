@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_temple/views/view_recipe.dart';
-import 'package:recipe_temple/database/database.dart';
+import 'package:recipe_temple/states/SavedRecipesPool.dart';
+
 import 'package:recipe_temple/models/commonHelpers.dart';
+import 'package:provider/provider.dart';
+
+import 'package:recipe_temple/models/Recipe.dart';
 
 class RecipeFlatCard extends StatelessWidget {
-  final AsyncSnapshot snapshot;
-  final int index;
-
-  final online;
+  final isOnline;
 
 //  final VoidCallback _onLongPress;
 
-
-  RecipeFlatCard(this.snapshot, this.index, this.online);
+  RecipeFlatCard(this.isOnline);
 
   @override
   Widget build(BuildContext context) {
+    Recipe recipe = Provider.of<Recipe>(context);
 
     return InkWell(
       splashColor: Colors.green[400],
@@ -36,13 +37,13 @@ class RecipeFlatCard extends StatelessWidget {
             leading: ClipRRect(
                 borderRadius: new BorderRadius.circular(20.0),
                 child: Image.network(
-                  snapshot.data[index].image,
+                  recipe.image,
                   fit: BoxFit.fill,
                   width: 160,
                   height: 110,
                 )),
             title: Text(
-              snapshot.data[index].name,
+              recipe.name,
               style: TextStyle(fontWeight: FontWeight.bold),
               maxLines: 2,
             ),
@@ -65,29 +66,18 @@ class RecipeFlatCard extends StatelessWidget {
             )),
       ),
       onDoubleTap: () {
-        if(online)  {
-          RecipeDatabase db = RecipeDatabase();
-          //snapshot.data[index] is a recipe object
-          db.saveRecipe(snapshot.data[index]).then((dbResponse) {
-            CommonHelpers().showToast(context, "Recipe saved");
-
-
-          });
+        if (isOnline) {
+          recipe.saveRecipe();
+          CommonHelpers().showToast(context, "Recipe saved");
         } else {
-
-          RecipeDatabase db = RecipeDatabase();
-          db.unSaveRecipe(snapshot.data[index]).then((dbResponse) {
-            CommonHelpers().showToast(context, "Recipe Removed");
-
-          });
+          Provider.of<SavedRecipesPool>(context).unSaveRecipe(recipe);
+          CommonHelpers().showToast(context, "Recipe Removed");
         }
-
       },
 
-            onTap: () => Navigator.of(context).push(
+      onTap: () => Navigator.of(context).push(
             new MaterialPageRoute(
-              builder: (BuildContext context) =>
-                  new ViewRecipePage(snapshot.data[index]),
+              builder: (BuildContext context) => new ViewRecipePage(recipe),
             ),
           ),
 //      onLongPress: _onLongPress,

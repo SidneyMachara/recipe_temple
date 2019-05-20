@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_temple/views/custom/recipe_flat_card.dart';
+import 'package:provider/provider.dart';
+import 'package:recipe_temple/states/SavedRecipesPool.dart';
+
 import 'package:recipe_temple/database/database.dart';
 import 'package:recipe_temple/models/Recipe.dart';
 import 'package:recipe_temple/models/commonHelpers.dart';
-
 
 class SavedRecipesPage extends StatefulWidget {
   @override
@@ -11,27 +13,10 @@ class SavedRecipesPage extends StatefulWidget {
 }
 
 class SavedRecipesPageState extends State<SavedRecipesPage> {
-
-
-  Future<List<Recipe>> _getSavedRecipes() async {
-
-    List<Recipe> savedRecipes = [];
-
-    RecipeDatabase db =  RecipeDatabase();
-    await db.getSavedRecipes().then((dbIngredients) {
-
-      savedRecipes = dbIngredients;
-
-    });
-    return savedRecipes;
-  }
-
-
-
-
-
   @override
   Widget build(BuildContext context) {
+    final savedRecipesPool = Provider.of<SavedRecipesPool>(context);
+
     return Column(
       children: <Widget>[
         Padding(
@@ -43,25 +28,21 @@ class SavedRecipesPageState extends State<SavedRecipesPage> {
               )),
         ),
         Expanded(
-          child: FutureBuilder(
-              future: _getSavedRecipes(),
-              builder: (BuildContext context, AsyncSnapshot snapshot) {
-                if (snapshot.data == null) {
-                  return Container(
-                    child: Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  );
-                } else {
-                  return ListView.builder(
-                      itemCount: snapshot.data.length,
-                      itemBuilder: (BuildContext context, int index) => Column(
-                        children: <Widget>[
-                          RecipeFlatCard(snapshot, index, false),
-                        ],
-                      ));
-                }
-              }),
+          child: ListView.builder(
+            itemCount: savedRecipesPool.getSavedRecipesPool.length,
+            itemBuilder: (BuildContext context, int index) {
+              final recipe = savedRecipesPool.getSavedRecipesPool[index];
+
+              return ChangeNotifierProvider<Recipe>.value(
+                notifier: recipe,
+                child: Column(
+                    children: <Widget>[
+                      RecipeFlatCard( false),
+                    ],
+                  ),
+              );
+  }
+          ),
         ),
       ],
     );

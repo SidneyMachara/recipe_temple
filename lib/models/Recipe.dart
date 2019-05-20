@@ -1,7 +1,8 @@
 import 'package:recipe_temple/models/Step.dart';
+import 'package:flutter/foundation.dart';
+import 'package:recipe_temple/database/database.dart';
 
-
-class Recipe
+class Recipe with ChangeNotifier
 {
   final name;
   final cookTime;
@@ -52,6 +53,18 @@ class Recipe
 
     return map;
   }
+
+
+  void saveRecipe()
+  {
+    RecipeDatabase db = RecipeDatabase();
+
+    db.saveRecipe(this).then((dbResponse) {
+
+    });
+  }
+
+
 
 
 
